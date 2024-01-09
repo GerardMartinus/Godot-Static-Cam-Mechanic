@@ -1,0 +1,155 @@
+[gd_scene load_steps=19 format=3 uid="uid://bkeotyq2ka45d"]
+
+[ext_resource type="Script" path="res://player.Newgd.gd" id="1_pvknh"]
+[ext_resource type="Script" path="res://cameraNew.gd" id="2_crf5o"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gxmx0"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_kmm4c"]
+sky_material = SubResource("ProceduralSkyMaterial_gxmx0")
+
+[sub_resource type="Environment" id="Environment_x4kvg"]
+background_mode = 2
+sky = SubResource("Sky_kmm4c")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gh4s2"]
+size = Vector2(100, 100)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_rrkfv"]
+data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1vg7u"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0shi"]
+albedo_color = Color(0.584314, 0.454902, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3lexq"]
+material = SubResource("StandardMaterial3D_q0shi")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3xr00"]
+albedo_color = Color(0.827451, 0.827451, 0.827451, 1)
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.4
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_iiowu"]
+material = SubResource("StandardMaterial3D_3xr00")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xnc4k"]
+albedo_color = Color(0.584314, 0.454902, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dlwt6"]
+material = SubResource("StandardMaterial3D_xnc4k")
+
+[sub_resource type="BoxMesh" id="BoxMesh_tmfxq"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_7jtcp"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n77k7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aoiml"]
+
+[node name="world" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_x4kvg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_gh4s2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ground/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_rrkfv")
+
+[node name="player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.3593, 1.05849, 5.64223)
+script = ExtResource("1_pvknh")
+
+[node name="collision" type="CollisionShape3D" parent="player"]
+shape = SubResource("CapsuleShape3D_1vg7u")
+
+[node name="shape" type="MeshInstance3D" parent="player"]
+mesh = SubResource("CapsuleMesh_3lexq")
+
+[node name="eyes" type="MeshInstance3D" parent="player"]
+transform = Transform3D(0.722996, 0, 0, 0, 0.258709, 0, 0, 0, 0.76207, 0, 0.397, -0.19)
+mesh = SubResource("CapsuleMesh_iiowu")
+
+[node name="bag" type="MeshInstance3D" parent="player"]
+transform = Transform3D(0.629744, 0, 0, 0, 0.492999, 0, 0, 0, 0.670947, 0, 0, 0.36)
+mesh = SubResource("CapsuleMesh_dlwt6")
+
+[node name="camera1" type="Camera3D" parent="." groups=["cameras"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.89884, 9.91734)
+script = ExtResource("2_crf5o")
+
+[node name="camera2" type="Camera3D" parent="." groups=["cameras"]]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 2.89884, -21.1957)
+current = true
+script = ExtResource("2_crf5o")
+
+[node name="camera3" type="Camera3D" parent="." groups=["cameras"]]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 2.89884, 11.0413)
+script = ExtResource("2_crf5o")
+
+[node name="camera4" type="Camera3D" parent="." groups=["cameras"]]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19.0775, 2.89884, 6.54338)
+script = ExtResource("2_crf5o")
+
+[node name="camera5" type="Camera3D" parent="." groups=["cameras"]]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 28.0028, 2.89884, 20.6132)
+script = ExtResource("2_crf5o")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 6.93172, 0, 0, 0, 0.676083, 0, 3.47603, 10.3869)
+mesh = SubResource("BoxMesh_tmfxq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_7jtcp")
+
+[node name="TriggerCam1" type="Area3D" parent="." groups=["camTrigger"]]
+transform = Transform3D(1, 0, 0, 0, 7.63894, 0, 0, 0, 1, 0, 3.79714, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerCam1"]
+transform = Transform3D(20.1084, 0, 0, 0, 1, 0, 0, 0, 20.1084, 0, 0, 0)
+shape = SubResource("BoxShape3D_n77k7")
+
+[node name="TriggerCam2" type="Area3D" parent="." groups=["camTrigger"]]
+transform = Transform3D(1, 0, 0, 0, 7.63894, 0, 0, 0, 1, 0, 3.797, -20.11)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerCam2"]
+transform = Transform3D(20.1084, 0, 0, 0, 1, 0, 0, 0, 20.1084, 0, 0, 0)
+shape = SubResource("BoxShape3D_n77k7")
+
+[node name="TriggerCam3" type="Area3D" parent="." groups=["camTrigger"]]
+transform = Transform3D(1, 0, 0, 0, 7.63894, 0, 0, 0, 1, 0, 3.79714, 20.7557)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerCam3"]
+transform = Transform3D(20.1084, 0, 0, 0, 1, 0, 0, 0, 20.1084, 0, 0, 0)
+shape = SubResource("BoxShape3D_n77k7")
+
+[node name="TriggerCam4" type="Area3D" parent="." groups=["camTrigger"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5969, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerCam4"]
+transform = Transform3D(11.7075, 0, 0, 0, 11.7075, 0, 0, 0, 11.7075, 5.38838, 0, 0)
+shape = SubResource("BoxShape3D_aoiml")
+
+[node name="TriggerCam5" type="Area3D" parent="." groups=["camTrigger"]]
+transform = Transform3D(2.08798, 0, 0, 0, 2.08798, 0, 0, 0, 2.08798, 24.7682, 0, 24.4731)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerCam5"]
+transform = Transform3D(11.7075, 0, 0, 0, 11.7075, 0, 0, 0, 11.7075, 5.38838, 0, 0)
+shape = SubResource("BoxShape3D_aoiml")
